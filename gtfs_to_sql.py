@@ -5,6 +5,7 @@ for table in tables:
     with open("./gtfs-stcp/" + table + ".txt") as f:
         with open("./gtfs-stcp-sql/" + table + ".sql", "w+") as out:
             for l in f.readlines()[1:]:
+                l = l.replace("'", "''")
                 arr = l[:-1].split(',')
                 s = ""
                 #print(arr)

@@ -131,14 +131,14 @@ route_id,direction_id,service_id,trip_id,trip_headsign,wheelchair_accessible,blo
 
 CREATE TABLE TRIPS
 (
-route_id NUMERIC(10),
+route_id VARCHAR(10),
 direction_id NUMERIC(2),
 service_id VARCHAR(10),
-trip_id NUMERIC(10),
-trip_headsign VARCHAR(10),
+trip_id VARCHAR(15),
+trip_headsign VARCHAR(50),
 wheelchair_accessible NUMERIC,
-block_id NUMERIC(10),
-shape_id NUMERIC(10)
+block_id VARCHAR(10),
+shape_id VARCHAR(20)
 );
 
 
