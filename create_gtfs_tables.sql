@@ -53,7 +53,7 @@ route_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_
 
 CREATE TABLE ROUTES
 (
-route_id NUMERIC(3),
+route_id VARCHAR(3),
 route_short_name VARCHAR(10),
 route_long_name VARCHAR(100),
 route_desc VARCHAR(100),
@@ -71,7 +71,7 @@ shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence
 
 CREATE TABLE SHAPES
 (
-shape_id NUMERIC(6),
+shape_id VARCHAR(15),
 shape_pt_lat NUMERIC,
 shape_pt_lon NUMERIC,
 shape_pt_sequence NUMERIC
@@ -85,12 +85,12 @@ stop_id,stop_code,stop_name,stop_lat,stop_lon,zone_id,stop_url
 
 CREATE TABLE STOPS
 (
-stop_id NUMERIC(10),
+stop_id VARCHAR(10),
 stop_code VARCHAR(10),
 stop_name VARCHAR(100),
 stop_lat NUMERIC(38,8),
 stop_lon NUMERIC(38,8),
-zone_id NUMERIC(5),
+zone_id VARCHAR(5),
 stop_url VARCHAR(100)
 );
 
@@ -102,10 +102,10 @@ trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign
 
 CREATE TABLE STOP_TIMES
 (
-trip_id NUMERIC(10),
+trip_id VARCHAR(15),
 arrival_time TIMESTAMP,
 departure_time TIMESTAMP,
-stop_id NUMERIC(10),
+stop_id VARCHAR(10),
 stop_sequence NUMERIC(10),
 stop_headsign VARCHAR(100)
 );
@@ -118,8 +118,8 @@ INF1,CAVE4,3
 
 CREATE TABLE TRANSFERS
 (
-from_stop_id NUMERIC(10),
-to_stop_id NUMERIC(10),
+from_stop_id VARCHAR(10),
+to_stop_id VARCHAR(10),
 transfer_type NUMERIC(3)
 );
 
