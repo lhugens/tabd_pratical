@@ -4,7 +4,7 @@ tables = ["agency", "calendar", "calendar_dates", "routes", "shapes", "stop_time
 for table in tables:
     with open("./gtfs-stcp/" + table + ".txt") as f:
         with open("./gtfs-stcp-sql/" + table + ".sql", "w+") as out:
-            for l in f:
+            for l in f.readlines()[1:]:
                 arr = l[:-1].split(',')
                 s = ""
                 #print(arr)
