@@ -57,7 +57,7 @@ route_id VARCHAR(3),
 route_short_name VARCHAR(10),
 route_long_name VARCHAR(100),
 route_desc VARCHAR(100),
-route_type NUMERIC(3),
+route_type VARCHAR(10),
 route_url VARCHAR(100),
 route_color VARCHAR(8),
 route_text_color VARCHAR(8)
@@ -74,7 +74,7 @@ CREATE TABLE SHAPES
 shape_id VARCHAR(15),
 shape_pt_lat NUMERIC,
 shape_pt_lon NUMERIC,
-shape_pt_sequence NUMERIC
+shape_pt_sequence INTEGER
 );
 
 /*
@@ -88,8 +88,8 @@ CREATE TABLE STOPS
 stop_id VARCHAR(10),
 stop_code VARCHAR(10),
 stop_name VARCHAR(100),
-stop_lat NUMERIC(38,8),
-stop_lon NUMERIC(38,8),
+stop_lat NUMERIC(10,8),
+stop_lon NUMERIC(11,8),
 zone_id VARCHAR(5),
 stop_url VARCHAR(100)
 );
@@ -103,10 +103,10 @@ trip_id,arrival_time,departure_time,stop_id,stop_sequence,stop_headsign
 CREATE TABLE STOP_TIMES
 (
 trip_id VARCHAR(15),
-arrival_time TIMESTAMP,
-departure_time TIMESTAMP,
+arrival_time TIME,
+departure_time TIME,
 stop_id VARCHAR(10),
-stop_sequence NUMERIC(10),
+stop_sequence INTEGER,
 stop_headsign VARCHAR(100)
 );
 
@@ -120,7 +120,7 @@ CREATE TABLE TRANSFERS
 (
 from_stop_id VARCHAR(10),
 to_stop_id VARCHAR(10),
-transfer_type NUMERIC(3)
+transfer_type INTEGER
 );
 
 /*
@@ -136,7 +136,7 @@ direction_id NUMERIC(2),
 service_id VARCHAR(10),
 trip_id VARCHAR(15),
 trip_headsign VARCHAR(50),
-wheelchair_accessible NUMERIC,
+wheelchair_accessible BOOLEAN,
 block_id VARCHAR(10),
 shape_id VARCHAR(20)
 );
