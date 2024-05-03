@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import datetime
 import numpy as np
+import random
+import matplotlib.colors as mcolors
 
 conn = psycopg2.connect(dbname = 'stcp', user = 'aluno', password = 'aluno')
 cursor_psql = conn.cursor()
@@ -54,9 +56,9 @@ def query(t1, t2):
     WHERE
         b.arrival_time >= '""" + t1 + """
         ' AND b.arrival_time < '""" + t2 + """' AND
-        a.service_id = 'SABAGOST' 
+        a.service_id = 'DOMVERAO' 
         --AND a.trip_id = '500_0_U_69'
-        AND a.route_id = '502'
+        --AND a.route_id = '502'
     ;
     """
     cursor_psql.execute(sql)
@@ -105,21 +107,29 @@ def animate(i):
 
 x_r = []
 y_r = []
+remove_points = []
 def make_arrays(t):
-    global x_r, y_r, updates
+    global x_r, y_r, updates, remove_points
     for i in range(t):
-        t = datetime.datetime(2000, 1, 1, 7, 30, 0) + datetime.timedelta(0, i*10) #days, seconds
+        t = datetime.datetime(2000, 1, 1, 7, 0, 0) + datetime.timedelta(0, i*10) #days, seconds
         t2 = t + datetime.timedelta(0, 10)
         print("time:", str(t.time()), str(t2.time()))
 
         xs = []
         ys = []
 
+
         for j in range(len(ids)):
             if(i > 0): xs.append(x_r[i-1][j])
             else: xs.append(0)
             if(i > 0): ys.append(y_r[i-1][j])
             else: ys.append(0)
+        
+        for id in remove_points:
+            xs[id] = 0
+            ys[id] = 0
+
+        remove_points = []
 
         results = query(str(t.time()), str(t2.time()))
         for p in results:
@@ -136,9 +146,7 @@ def make_arrays(t):
             #print("point", p_id, p_x, p_y)
 
             if(sequence == 0):
-                print("sequence end")
-                p_x = 0.0
-                p_y = 0.0
+                remove_points.append(p_id)
 
             xs[p_id] = p_x        
             ys[p_id] = p_y       
@@ -162,13 +170,43 @@ for i in range(len(ids)):
     transparency.append(0)
 
 frames = 6*60*24
-frames = 6*60*4
+frames = 6*60*2
 make_arrays(frames)
 #fig, ax = plt.subplots(figsize= (5000, 2000))
 fig, ax = plt.subplots()
-ax.set_xlim(-5000, -2900)
-ax.set_ylim(1500, 1800)
-scat = ax.scatter(x_r[0], y_r[0])
+
+query = "select st_astext(proj_boundary) from cont_aad_caop2018 where distrito = 'PORTO'"
+
+cursor_psql.execute(query)
+results = cursor_psql.fetchall()
+
+#print(results)
+#print(results[0][0])
+#results = results[0][0][9:-2]
+#results = results.split(',')
+for points in results:
+    xs = []
+    ys = []
+
+    points = points[0][9:-5]
+    points = points.split(',')
+    #print(points)
+    for point in points:
+        (x,y) = point.split()
+        xs.append(float(x) * scale_x)
+        ys.append(float(y) * scale_y)
+    xs.append(xs[0])
+    ys.append(ys[0])
+    ax.plot(xs, ys, linewidth=1)
+
+ax.set_xlim(-5050, -2850)
+ax.set_ylim(1450, 1850)
+
+c = [v for (k,v) in mcolors.TABLEAU_COLORS.items()]
+colors = [random.choice(c) for i in range(len(ids))]
+
+scat = ax.scatter(x_r[0], y_r[0], s = 2, color = colors)
+#scat = ax.scatter(x_r[0], y_r[0], s = 2)
 #animate(0)
 
 anim = FuncAnimation( fig, animate2, frames = frames, interval=1, blit=True)
@@ -182,5 +220,5 @@ anim.save('animation.mp4', fps=60, writer='ffmpeg')
 #lt.draw()
 #plt.show()
 
-updates.sort(reverse=True)
-print(updates[:1000])
+#updates.sort(reverse=True)
+#print(updates[:1000])
