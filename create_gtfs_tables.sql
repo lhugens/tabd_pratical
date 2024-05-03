@@ -3,6 +3,8 @@ agency_id,agency_name,agency_url,agency_timezone,agency_lang
 STCP,Sociedade Transportes Colectivos do Porto,http://www.stcp.pt,Europe/Lisbon,pt
 */
 
+CREATE EXTENSION postgis;
+
 CREATE TABLE AGENCY
 (
 agency_id VARCHAR(10),
