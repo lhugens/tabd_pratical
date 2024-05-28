@@ -7,21 +7,23 @@ for row in rows[:1]:
 with open("./create_warehouse.sql", "w+") as out:
     # create table
     out.write('''CREATE TABLE WAREHOUSE (
-id VARCHAR(2),
+id VARCHAR(10),
 stop_id_start VARCHAR(10),
 stop_id_end VARCHAR(10),
 initial_point public.geometry(Point,3763),
 final_point public.geometry(Point,3763),
 stop_point_start public.geometry(Point,3763),
 stop_point_end public.geometry(Point,3763),
-initial_ts TIME,
-final_ts TIME,
+initial_ts INTEGER,
+final_ts INTEGER,
 departure_time TIME,
 trip_id VARCHAR(10)
 );\n\n''')
     for row in rows: 
         time = row[9].strftime('%H:%M:%S')
-        out.write(f"insert into warehouse values {(*row[:8], time, *row[10:])};\n")
+        out.write(f"insert into warehouse values ('{row[0]}', '{row[1]}', '{row[2]}', '{row[3]}', '{row[4]}', '{row[5]}', '{row[6]}', '{row[7]}', '{row[8]}', TIME '{time}', '{row[10]}');\n")
+
+
 
 '''
 (7269,  -- id
