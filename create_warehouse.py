@@ -20,11 +20,8 @@ departure_time TIME,
 trip_id VARCHAR(10)
 );\n\n''')
     for row in rows: 
-        out.write(f"insert into warehouse values {row};\n")
-
-
-
-    
+        time = row[9].strftime('%H:%M:%S')
+        out.write(f"insert into warehouse values {(*row[:8], time, *row[10:])};\n")
 
 '''
 (7269,  -- id
