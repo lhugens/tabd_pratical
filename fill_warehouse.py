@@ -1,4 +1,3 @@
-
 import psycopg2
 import matplotlib.pyplot as plt
 from datetime import datetime
@@ -30,7 +29,7 @@ class Trip:
         self.bus_end_time = end_time
 
     def __str__(self):
-        return "insert into warehouse values ( {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {} )".format(
+        return "insert into warehouse values ( '{}', '{}', '{}', '{}', {}, {}, '{}', '{}', '{}', '{}', '{}', '{}' );".format(
             self.route_id,
             self.trip_id,
             self.bus_init_stop,
@@ -51,7 +50,7 @@ class Trip:
 
 #connection
 
-conn = psycopg2.connect(dbname = 'stcp', user = 'aluno', password = 'aluno')
+conn = psycopg2.connect("dbname=leo user=leo")
 cursor_psql = conn.cursor()
 
 #-------------------------------------------------
