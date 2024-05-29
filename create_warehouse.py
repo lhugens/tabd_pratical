@@ -1,5 +1,5 @@
 import datetime
-from ware_house1 import rows
+from results import rows
 
 for row in rows[:1]:
     print(row)
@@ -7,9 +7,9 @@ for row in rows[:1]:
 with open("./create_warehouse.sql", "w+") as out:
     # create table
     out.write('''CREATE TABLE WAREHOUSE (
-id VARCHAR(10),
-stop_id_start VARCHAR(10),
-stop_id_end VARCHAR(10),
+id VARCHAR(50),
+stop_id_start VARCHAR(50),
+stop_id_end VARCHAR(50),
 initial_point public.geometry(Point,3763),
 final_point public.geometry(Point,3763),
 stop_point_start public.geometry(Point,3763),
@@ -17,7 +17,7 @@ stop_point_end public.geometry(Point,3763),
 initial_ts INTEGER,
 final_ts INTEGER,
 departure_time TIME,
-trip_id VARCHAR(10)
+trip_id VARCHAR(50)
 );\n\n''')
     for row in rows: 
         time = row[9].strftime('%H:%M:%S')
